@@ -27,11 +27,11 @@ client = anthropic.Anthropic(api_key=api_key)
 st.subheader("⚙️ 모델 선택")
 model_option = st.radio(
     "사용할 Claude 모델을 선택하세요:",
-    options=["claude-sonnet-4-5", "claude-opus-4-5"],
+    options=["claude-sonnet-4-6", "claude-opus-4-6"],
     format_func=lambda x: (
-        "✨ Claude Sonnet 4.5 (빠르고 효율적)"
-        if x == "claude-sonnet-4-5"
-        else "🏆 Claude Opus 4.5 (가장 강력함)"
+        "✨ Claude Sonnet 4.6 (빠르고 효율적)"
+        if x == "claude-sonnet-4-6"
+        else "🏆 Claude Opus 4.6 (가장 강력함)"
     ),
     horizontal=True
 )
