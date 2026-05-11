@@ -11,10 +11,10 @@ st.set_page_config(
 # ───────────────────────────── CSS ─────────────────────────────
 st.markdown("""
 <style>
-    /* 전체 배경 */
+    /* 전체 배경 & 기본 텍스트 */
     .stApp {
-        background-color: #111318;
-        color: #e2e4e9;
+        background-color: #f5f7fa;
+        color: #1a1d2e;
     }
     .block-container {
         padding-top: 3rem;
@@ -22,171 +22,171 @@ st.markdown("""
         max-width: 800px;
     }
 
-    /* 헤더 */
+    /* 모든 텍스트 기본 어둡게 */
+    html, body, [class*="css"], p, span, div, label,
+    li, td, th, h1, h2, h3, h4, h5, h6 {
+        color: #1a1d2e;
+    }
+
+    /* ── 헤더 ── */
     .header-wrap {
         margin-bottom: 2rem;
     }
     .header-title {
         font-size: 2rem;
         font-weight: 800;
-        color: #f0f1f5;
+        color: #1a1d2e !important;
         letter-spacing: -0.5px;
-        margin-bottom: 0.4rem;
         line-height: 1.2;
+        margin-bottom: 0.4rem;
     }
     .header-sub {
         font-size: 1rem;
-        color: #8b90a0;
+        color: #6b7280 !important;
         margin: 0;
     }
 
-    /* 모델 라디오 */
+    /* ── 구분선 ── */
+    hr {
+        border: none !important;
+        border-top: 1.5px solid #e5e7ef !important;
+        margin: 1.6rem 0 !important;
+    }
+
+    /* ── 모델 라디오 ── */
     div[data-testid="stRadio"] > label { display: none; }
     div[data-testid="stRadio"] > div {
         display: flex;
         gap: 0.6rem;
-        flex-direction: row;
     }
     div[data-testid="stRadio"] > div > label {
-        background-color: #1c1f2b;
-        border: 1.5px solid #2e3246;
+        background-color: #ffffff;
+        border: 1.5px solid #d1d5e0;
         border-radius: 12px;
-        padding: 0.55rem 1.1rem;
-        color: #8b90a0;
+        padding: 0.55rem 1.2rem;
+        color: #4b5270 !important;
         font-size: 0.9rem;
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
     div[data-testid="stRadio"] > div > label:hover {
-        border-color: #7c7ff0;
-        color: #d0d1fa;
-        background-color: #1e2038;
+        border-color: #6366f1;
+        color: #6366f1 !important;
+        background-color: #f0f0fe;
     }
     div[data-testid="stRadio"] > div > label[data-checked="true"] {
-        border-color: #7c7ff0;
-        color: #d0d1fa;
-        background-color: #1e2038;
+        border-color: #6366f1;
+        background-color: #eef0fd;
+        color: #6366f1 !important;
+        font-weight: 600;
     }
 
-    /* 구분선 */
-    hr {
-        border: none !important;
-        border-top: 1px solid #1e2130 !important;
-        margin: 1.6rem 0 !important;
-    }
-
-    /* ── 추천 키워드 패널 ── */
+    /* ── 추천 질문 패널 ── */
     .recommend-panel {
-        background: #161923;
-        border: 1.5px solid #252840;
+        background: #ffffff;
+        border: 1.5px solid #e2e5f0;
         border-radius: 18px;
-        padding: 1.4rem 1.6rem 1.5rem;
-        margin-bottom: 1.8rem;
+        padding: 1.4rem 1.6rem 0.6rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 10px rgba(99,102,241,0.06);
     }
     .recommend-header {
         display: flex;
         align-items: center;
         gap: 0.55rem;
-        margin-bottom: 1.1rem;
+        margin-bottom: 1rem;
     }
     .recommend-dot {
         width: 7px;
         height: 7px;
-        background: #7c7ff0;
+        background: #6366f1;
         border-radius: 50%;
         display: inline-block;
         animation: pulse 2s infinite;
     }
     @keyframes pulse {
         0%, 100% { opacity: 1; transform: scale(1); }
-        50%       { opacity: 0.4; transform: scale(0.85); }
+        50%       { opacity: 0.35; transform: scale(0.8); }
     }
     .recommend-title {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         font-weight: 700;
-        color: #7c7ff0;
+        color: #6366f1 !important;
         letter-spacing: 0.1em;
         text-transform: uppercase;
     }
 
-    /* 추천 키워드 버튼 개별 스타일 */
-    div[data-testid="stButton"] button[kind="secondary"] {
-        background-color: #1c2030 !important;
-        border: 1.5px solid #2a2f4a !important;
+    /* ── 추천 키워드 버튼 ── */
+    div[data-testid="stButton"] button {
+        background-color: #f8f9fc !important;
+        border: 1.5px solid #e2e5f0 !important;
         border-radius: 11px !important;
-        color: #c5c8dc !important;          /* ← 밝은 텍스트 */
-        font-size: 0.92rem !important;
+        color: #2d3148 !important;
+        font-size: 0.93rem !important;
         font-weight: 500 !important;
-        padding: 0.55rem 1rem !important;
+        padding: 0.6rem 1rem !important;
         text-align: left !important;
         transition: all 0.18s ease !important;
         width: 100% !important;
         line-height: 1.5 !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
     }
-    div[data-testid="stButton"] button[kind="secondary"]:hover {
-        background-color: #1e2240 !important;
-        border-color: #7c7ff0 !important;
-        color: #e8e9ff !important;          /* ← 호버 시 더 밝게 */
-        transform: translateX(3px) !important;
-    }
-
-    /* 새로고침 버튼 별도 */
-    .refresh-btn button {
-        background-color: transparent !important;
-        border: 1px solid #2a2f4a !important;
-        border-radius: 10px !important;
-        color: #6b7080 !important;
-        font-size: 0.82rem !important;
-        padding: 0.4rem 0.9rem !important;
-        transition: all 0.18s !important;
-    }
-    .refresh-btn button:hover {
-        border-color: #7c7ff0 !important;
-        color: #a5a8f5 !important;
+    div[data-testid="stButton"] button:hover {
+        background-color: #eef0fd !important;
+        border-color: #6366f1 !important;
+        color: #4145c8 !important;
+        transform: translateX(4px) !important;
+        box-shadow: 0 2px 8px rgba(99,102,241,0.12) !important;
     }
 
-    /* 채팅 메시지 */
+    /* ── 채팅 메시지 ── */
     div[data-testid="stChatMessage"] {
-        background-color: #161923;
-        border: 1.5px solid #1e2235;
+        background-color: #ffffff;
+        border: 1.5px solid #e8eaf2;
         border-radius: 16px;
         padding: 1.1rem 1.3rem;
         margin-bottom: 0.8rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    div[data-testid="stChatMessage"] p,
+    div[data-testid="stChatMessage"] li,
+    div[data-testid="stChatMessage"] span,
+    div[data-testid="stChatMessage"] div,
+    div[data-testid="stChatMessage"] h1,
+    div[data-testid="stChatMessage"] h2,
+    div[data-testid="stChatMessage"] h3 {
+        color: #1a1d2e !important;
+        line-height: 1.8 !important;
     }
 
-    /* 채팅 메시지 내 텍스트 */
-    div[data-testid="stChatMessage"] p {
-        color: #dde0ec !important;
-        font-size: 0.97rem !important;
-        line-height: 1.75 !important;
-    }
-
-    /* 입력창 */
+    /* ── 채팅 입력창 ── */
     div[data-testid="stChatInput"] textarea {
-        background-color: #1c1f2b !important;
-        border: 1.5px solid #2e3246 !important;
+        background-color: #ffffff !important;
+        border: 1.5px solid #d1d5e0 !important;
         border-radius: 14px !important;
-        color: #e2e4e9 !important;
+        color: #1a1d2e !important;
         font-size: 0.96rem !important;
         line-height: 1.6 !important;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
     }
     div[data-testid="stChatInput"] textarea::placeholder {
-        color: #4b5068 !important;
+        color: #a0a6bc !important;
     }
     div[data-testid="stChatInput"] textarea:focus {
-        border-color: #7c7ff0 !important;
-        box-shadow: 0 0 0 3px rgba(124,127,240,0.12) !important;
+        border-color: #6366f1 !important;
+        box-shadow: 0 0 0 3px rgba(99,102,241,0.12) !important;
     }
 
-    /* 캡션 (토큰 정보) */
-    div[data-testid="stChatMessage"] .stCaptionContainer p,
-    .stCaption p {
-        color: #4b5068 !important;
+    /* ── 캡션 (토큰 정보) ── */
+    .stCaption p,
+    div[data-testid="stCaptionContainer"] p {
+        color: #9ca3b8 !important;
         font-size: 0.76rem !important;
     }
 
-    /* 토큰 카드 */
+    /* ── 토큰 카드 ── */
     .token-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -194,16 +194,17 @@ st.markdown("""
         margin-top: 0.5rem;
     }
     .token-card {
-        background: #161923;
-        border: 1.5px solid #1e2235;
+        background: #ffffff;
+        border: 1.5px solid #e8eaf2;
         border-radius: 14px;
-        padding: 1.1rem 0.8rem;
+        padding: 1.2rem 0.8rem;
         text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
     .token-label {
         font-size: 0.72rem;
         font-weight: 600;
-        color: #5a5f78;
+        color: #9ca3b8 !important;
         text-transform: uppercase;
         letter-spacing: 0.08em;
         margin-bottom: 0.5rem;
@@ -211,59 +212,79 @@ st.markdown("""
     .token-value {
         font-size: 1.65rem;
         font-weight: 800;
-        color: #e2e4f0;
+        color: #1a1d2e !important;
         letter-spacing: -0.5px;
     }
     .token-value-accent {
         font-size: 1.65rem;
         font-weight: 800;
-        color: #7c7ff0;
+        color: #6366f1 !important;
         letter-spacing: -0.5px;
     }
 
-    /* 섹션 레이블 */
+    /* ── 섹션 레이블 ── */
     .section-label {
         font-size: 0.78rem;
         font-weight: 700;
-        color: #5a5f78;
+        color: #9ca3b8 !important;
         letter-spacing: 0.1em;
         text-transform: uppercase;
         margin-bottom: 0.8rem;
     }
 
-    /* 대화 헤더 */
-    .chat-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-    }
+    /* ── 대화 타이틀 ── */
     .chat-title {
         font-size: 1.05rem;
         font-weight: 700;
-        color: #c8cbdc;
+        color: #1a1d2e !important;
+        padding-top: 0.2rem;
     }
 
-    /* 초기화 버튼 */
+    /* ── 초기화 버튼 ── */
     .reset-btn button {
         background-color: transparent !important;
-        border: 1px solid #2e3246 !important;
-        color: #5a5f78 !important;
-        border-radius: 9px !important;
-        font-size: 0.8rem !important;
-        padding: 0.3rem 0.75rem !important;
-        transition: all 0.18s !important;
+        border: 1.5px solid #e2e5f0 !important;
+        color: #9ca3b8 !important;
+        font-size: 0.82rem !important;
+        padding: 0.35rem 0.8rem !important;
+        transform: none !important;
+        text-align: center !important;
+        box-shadow: none !important;
     }
     .reset-btn button:hover {
-        border-color: #e05c6a !important;
-        color: #e05c6a !important;
-        background-color: rgba(224,92,106,0.06) !important;
+        border-color: #ef4444 !important;
+        color: #ef4444 !important;
+        background-color: #fff5f5 !important;
+        transform: none !important;
     }
 
-    /* 푸터 */
+    /* ── 새로고침 버튼 ── */
+    .refresh-btn button {
+        background-color: transparent !important;
+        border: 1.5px solid #e2e5f0 !important;
+        color: #6b7280 !important;
+        font-size: 0.82rem !important;
+        padding: 0.35rem 0.9rem !important;
+        transform: none !important;
+        text-align: center !important;
+        box-shadow: none !important;
+    }
+    .refresh-btn button:hover {
+        border-color: #6366f1 !important;
+        color: #6366f1 !important;
+        background-color: #eef0fd !important;
+        transform: none !important;
+    }
+
+    /* ── 에러/경고 ── */
+    div[data-testid="stAlert"] p {
+        color: #1a1d2e !important;
+    }
+
+    /* ── 푸터 ── */
     .footer-text {
         text-align: center;
-        color: #2d3248;
+        color: #c8ccd8 !important;
         font-size: 0.74rem;
         margin-top: 1.8rem;
     }
@@ -315,7 +336,7 @@ model_option = st.radio(
 
 st.markdown("<hr>", unsafe_allow_html=True)
 
-# ───────────────────────────── AI 추천 키워드 패널 ─────────────────────────────
+# ───────────────────────────── 추천 키워드 생성 ─────────────────────────────
 def generate_keywords():
     with st.spinner("✨ 추천 질문을 생성하는 중..."):
         try:
@@ -330,8 +351,7 @@ def generate_keywords():
                         "- 각 질문은 한 문장, 20자 이내로 간결하게\n"
                         "- 번호나 기호 없이 줄바꿈으로만 구분\n"
                         "- 매번 다양한 분야(학습, 코딩, 창작, 과학, 일상, 역사, 언어 등)에서 골고루 선택\n"
-                        "- 실용적이고 흥미로운 질문으로\n"
-                        "예시처럼 질문 형태로만 출력해줘."
+                        "- 실용적이고 흥미로운 질문 형태로만 출력"
                     )
                 }]
             )
@@ -339,7 +359,7 @@ def generate_keywords():
             keywords = [k.strip() for k in raw.split("\n") if k.strip()][:5]
             st.session_state.recommended_keywords = keywords
             st.session_state.keywords_generated = True
-        except Exception as e:
+        except Exception:
             st.session_state.recommended_keywords = [
                 "파이썬으로 웹 크롤러 만드는 법은?",
                 "효율적인 공부 습관을 알려줘",
@@ -349,11 +369,10 @@ def generate_keywords():
             ]
             st.session_state.keywords_generated = True
 
-# 최초 1회 자동 생성
 if not st.session_state.keywords_generated:
     generate_keywords()
 
-# 패널 출력
+# ───────────────────────────── 추천 질문 패널 ─────────────────────────────
 st.markdown("""
 <div class="recommend-panel">
     <div class="recommend-header">
@@ -363,15 +382,13 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 키워드 버튼 5개
 if st.session_state.recommended_keywords:
     for kw in st.session_state.recommended_keywords:
         if st.button(f"▸  {kw}", key=f"rec_{kw}", use_container_width=True):
             st.session_state.auto_send = kw
 
-    # 새로고침 버튼
-    st.markdown("<div style='height:0.4rem'></div>", unsafe_allow_html=True)
-    col_refresh, _ = st.columns([1.6, 3])
+    st.markdown("<div style='height:0.5rem'></div>", unsafe_allow_html=True)
+    col_refresh, _ = st.columns([1.8, 3])
     with col_refresh:
         st.markdown('<div class="refresh-btn">', unsafe_allow_html=True)
         if st.button("🔄  다른 질문 추천받기", key="refresh_keywords"):
