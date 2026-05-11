@@ -11,155 +11,261 @@ st.set_page_config(
 # ───────────────────────────── CSS ─────────────────────────────
 st.markdown("""
 <style>
+    /* 전체 배경 */
     .stApp {
-        background-color: #0f1117;
-        color: #e8e8e8;
+        background-color: #111318;
+        color: #e2e4e9;
     }
     .block-container {
         padding-top: 3rem;
-        padding-bottom: 3rem;
-        max-width: 780px;
+        padding-bottom: 4rem;
+        max-width: 800px;
+    }
+
+    /* 헤더 */
+    .header-wrap {
+        margin-bottom: 2rem;
     }
     .header-title {
-        font-size: 2.2rem;
-        font-weight: 700;
-        color: #ffffff;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #f0f1f5;
         letter-spacing: -0.5px;
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.4rem;
+        line-height: 1.2;
     }
     .header-sub {
         font-size: 1rem;
-        color: #6b7280;
-        margin-bottom: 2rem;
-    }
-
-    /* 추천 키워드 패널 */
-    .recommend-panel {
-        background: linear-gradient(135deg, #1a1d2e 0%, #1e2035 100%);
-        border: 1px solid #2d3148;
-        border-radius: 18px;
-        padding: 1.4rem 1.6rem;
-        margin-bottom: 1.8rem;
-    }
-    .recommend-header {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-    }
-    .recommend-title {
-        font-size: 0.82rem;
-        font-weight: 600;
-        color: #6366f1;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-    }
-    .recommend-dot {
-        width: 6px;
-        height: 6px;
-        background-color: #6366f1;
-        border-radius: 50%;
-        display: inline-block;
-        animation: pulse 1.8s infinite;
-    }
-    @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.3; }
+        color: #8b90a0;
+        margin: 0;
     }
 
     /* 모델 라디오 */
     div[data-testid="stRadio"] > label { display: none; }
     div[data-testid="stRadio"] > div {
         display: flex;
-        gap: 0.75rem;
+        gap: 0.6rem;
         flex-direction: row;
     }
     div[data-testid="stRadio"] > div > label {
-        background-color: #1e2130;
-        border: 1px solid #2d3148;
+        background-color: #1c1f2b;
+        border: 1.5px solid #2e3246;
         border-radius: 12px;
-        padding: 0.6rem 1.2rem;
-        color: #9ca3af;
-        font-size: 0.88rem;
+        padding: 0.55rem 1.1rem;
+        color: #8b90a0;
+        font-size: 0.9rem;
+        font-weight: 500;
         cursor: pointer;
         transition: all 0.2s;
     }
     div[data-testid="stRadio"] > div > label:hover {
-        border-color: #6366f1;
-        color: #ffffff;
+        border-color: #7c7ff0;
+        color: #d0d1fa;
+        background-color: #1e2038;
+    }
+    div[data-testid="stRadio"] > div > label[data-checked="true"] {
+        border-color: #7c7ff0;
+        color: #d0d1fa;
+        background-color: #1e2038;
+    }
+
+    /* 구분선 */
+    hr {
+        border: none !important;
+        border-top: 1px solid #1e2130 !important;
+        margin: 1.6rem 0 !important;
+    }
+
+    /* ── 추천 키워드 패널 ── */
+    .recommend-panel {
+        background: #161923;
+        border: 1.5px solid #252840;
+        border-radius: 18px;
+        padding: 1.4rem 1.6rem 1.5rem;
+        margin-bottom: 1.8rem;
+    }
+    .recommend-header {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        margin-bottom: 1.1rem;
+    }
+    .recommend-dot {
+        width: 7px;
+        height: 7px;
+        background: #7c7ff0;
+        border-radius: 50%;
+        display: inline-block;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50%       { opacity: 0.4; transform: scale(0.85); }
+    }
+    .recommend-title {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #7c7ff0;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    /* 추천 키워드 버튼 개별 스타일 */
+    div[data-testid="stButton"] button[kind="secondary"] {
+        background-color: #1c2030 !important;
+        border: 1.5px solid #2a2f4a !important;
+        border-radius: 11px !important;
+        color: #c5c8dc !important;          /* ← 밝은 텍스트 */
+        font-size: 0.92rem !important;
+        font-weight: 500 !important;
+        padding: 0.55rem 1rem !important;
+        text-align: left !important;
+        transition: all 0.18s ease !important;
+        width: 100% !important;
+        line-height: 1.5 !important;
+    }
+    div[data-testid="stButton"] button[kind="secondary"]:hover {
+        background-color: #1e2240 !important;
+        border-color: #7c7ff0 !important;
+        color: #e8e9ff !important;          /* ← 호버 시 더 밝게 */
+        transform: translateX(3px) !important;
+    }
+
+    /* 새로고침 버튼 별도 */
+    .refresh-btn button {
+        background-color: transparent !important;
+        border: 1px solid #2a2f4a !important;
+        border-radius: 10px !important;
+        color: #6b7080 !important;
+        font-size: 0.82rem !important;
+        padding: 0.4rem 0.9rem !important;
+        transition: all 0.18s !important;
+    }
+    .refresh-btn button:hover {
+        border-color: #7c7ff0 !important;
+        color: #a5a8f5 !important;
     }
 
     /* 채팅 메시지 */
     div[data-testid="stChatMessage"] {
-        background-color: #1a1d2e;
-        border: 1px solid #22263a;
-        border-radius: 14px;
-        padding: 1rem 1.2rem;
-        margin-bottom: 0.75rem;
+        background-color: #161923;
+        border: 1.5px solid #1e2235;
+        border-radius: 16px;
+        padding: 1.1rem 1.3rem;
+        margin-bottom: 0.8rem;
+    }
+
+    /* 채팅 메시지 내 텍스트 */
+    div[data-testid="stChatMessage"] p {
+        color: #dde0ec !important;
+        font-size: 0.97rem !important;
+        line-height: 1.75 !important;
     }
 
     /* 입력창 */
     div[data-testid="stChatInput"] textarea {
-        background-color: #1e2130 !important;
-        border: 1px solid #2d3148 !important;
+        background-color: #1c1f2b !important;
+        border: 1.5px solid #2e3246 !important;
         border-radius: 14px !important;
-        color: #e8e8e8 !important;
-        font-size: 0.95rem !important;
+        color: #e2e4e9 !important;
+        font-size: 0.96rem !important;
+        line-height: 1.6 !important;
+    }
+    div[data-testid="stChatInput"] textarea::placeholder {
+        color: #4b5068 !important;
     }
     div[data-testid="stChatInput"] textarea:focus {
-        border-color: #6366f1 !important;
-        box-shadow: 0 0 0 2px rgba(99,102,241,0.15) !important;
+        border-color: #7c7ff0 !important;
+        box-shadow: 0 0 0 3px rgba(124,127,240,0.12) !important;
+    }
+
+    /* 캡션 (토큰 정보) */
+    div[data-testid="stChatMessage"] .stCaptionContainer p,
+    .stCaption p {
+        color: #4b5068 !important;
+        font-size: 0.76rem !important;
     }
 
     /* 토큰 카드 */
+    .token-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+    }
     .token-card {
-        background-color: #1a1d2e;
-        border: 1px solid #22263a;
+        background: #161923;
+        border: 1.5px solid #1e2235;
         border-radius: 14px;
-        padding: 1.1rem 1.4rem;
+        padding: 1.1rem 0.8rem;
         text-align: center;
     }
     .token-label {
-        font-size: 0.75rem;
-        color: #4b5563;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #5a5f78;
         text-transform: uppercase;
-        letter-spacing: 0.07em;
-        margin-bottom: 0.4rem;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.5rem;
     }
     .token-value {
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: #ffffff;
+        font-size: 1.65rem;
+        font-weight: 800;
+        color: #e2e4f0;
+        letter-spacing: -0.5px;
     }
     .token-value-accent {
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: #6366f1;
+        font-size: 1.65rem;
+        font-weight: 800;
+        color: #7c7ff0;
+        letter-spacing: -0.5px;
     }
 
-    hr { border-color: #1e2130 !important; margin: 1.8rem 0 !important; }
-
-    /* 초기화 버튼 */
-    button[kind="secondary"] {
-        background-color: transparent !important;
-        border: 1px solid #2d3148 !important;
-        color: #6b7280 !important;
-        border-radius: 10px !important;
-        font-size: 0.82rem !important;
-        transition: all 0.2s !important;
-    }
-    button[kind="secondary"]:hover {
-        border-color: #ef4444 !important;
-        color: #ef4444 !important;
-    }
-
+    /* 섹션 레이블 */
     .section-label {
         font-size: 0.78rem;
-        font-weight: 600;
-        color: #4b5563;
-        letter-spacing: 0.08em;
+        font-weight: 700;
+        color: #5a5f78;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.8rem;
+    }
+
+    /* 대화 헤더 */
+    .chat-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    .chat-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #c8cbdc;
+    }
+
+    /* 초기화 버튼 */
+    .reset-btn button {
+        background-color: transparent !important;
+        border: 1px solid #2e3246 !important;
+        color: #5a5f78 !important;
+        border-radius: 9px !important;
+        font-size: 0.8rem !important;
+        padding: 0.3rem 0.75rem !important;
+        transition: all 0.18s !important;
+    }
+    .reset-btn button:hover {
+        border-color: #e05c6a !important;
+        color: #e05c6a !important;
+        background-color: rgba(224,92,106,0.06) !important;
+    }
+
+    /* 푸터 */
+    .footer-text {
+        text-align: center;
+        color: #2d3248;
+        font-size: 0.74rem;
+        margin-top: 1.8rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -188,8 +294,12 @@ if "keywords_generated" not in st.session_state:
     st.session_state.keywords_generated = False
 
 # ───────────────────────────── 헤더 ─────────────────────────────
-st.markdown('<div class="header-title">✦ Claude AI</div>', unsafe_allow_html=True)
-st.markdown('<div class="header-sub">무엇이든 물어보세요. 바로 답해드릴게요.</div>', unsafe_allow_html=True)
+st.markdown("""
+<div class="header-wrap">
+    <div class="header-title">✦ Claude AI</div>
+    <p class="header-sub">무엇이든 물어보세요. 바로 답해드릴게요.</p>
+</div>
+""", unsafe_allow_html=True)
 
 # ───────────────────────────── 모델 선택 ─────────────────────────────
 model_option = st.radio(
@@ -206,29 +316,22 @@ model_option = st.radio(
 st.markdown("<hr>", unsafe_allow_html=True)
 
 # ───────────────────────────── AI 추천 키워드 패널 ─────────────────────────────
-st.markdown("""
-<div class="recommend-panel">
-    <div class="recommend-header">
-        <span class="recommend-dot"></span>
-        <span class="recommend-title">AI 질문 추천</span>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-# 추천 키워드 생성 함수
 def generate_keywords():
-    with st.spinner("✨ AI가 추천 질문을 생성하는 중..."):
+    with st.spinner("✨ 추천 질문을 생성하는 중..."):
         try:
             response = client.messages.create(
                 model="claude-sonnet-4-6",
-                max_tokens=300,
+                max_tokens=400,
                 messages=[{
                     "role": "user",
                     "content": (
-                        "사용자가 AI 챗봇에게 질문할 만한 흥미롭고 다양한 주제의 질문 5가지를 추천해줘. "
-                        "각 질문은 간결하게 한 문장으로, 번호 없이 줄바꿈으로만 구분해서 출력해줘. "
-                        "질문은 매번 다르게, 창의적이고 실용적인 것들로 골고루 섞어서 추천해줘. "
-                        "예: 학습, 코딩, 창작, 일상, 과학 등 다양한 분야에서 뽑아줘."
+                        "사용자가 AI 챗봇에게 질문할 만한 흥미롭고 다양한 질문 5가지를 추천해줘.\n"
+                        "조건:\n"
+                        "- 각 질문은 한 문장, 20자 이내로 간결하게\n"
+                        "- 번호나 기호 없이 줄바꿈으로만 구분\n"
+                        "- 매번 다양한 분야(학습, 코딩, 창작, 과학, 일상, 역사, 언어 등)에서 골고루 선택\n"
+                        "- 실용적이고 흥미로운 질문으로\n"
+                        "예시처럼 질문 형태로만 출력해줘."
                     )
                 }]
             )
@@ -237,37 +340,60 @@ def generate_keywords():
             st.session_state.recommended_keywords = keywords
             st.session_state.keywords_generated = True
         except Exception as e:
-            st.error(f"추천 질문 생성 실패: {str(e)}")
+            st.session_state.recommended_keywords = [
+                "파이썬으로 웹 크롤러 만드는 법은?",
+                "효율적인 공부 습관을 알려줘",
+                "우주의 끝은 어디야?",
+                "짧은 단편 소설을 써줘",
+                "AI가 바꿀 미래 직업은?"
+            ]
+            st.session_state.keywords_generated = True
 
 # 최초 1회 자동 생성
 if not st.session_state.keywords_generated:
     generate_keywords()
 
-# 추천 키워드 버튼 출력
+# 패널 출력
+st.markdown("""
+<div class="recommend-panel">
+    <div class="recommend-header">
+        <span class="recommend-dot"></span>
+        <span class="recommend-title">AI 추천 질문</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# 키워드 버튼 5개
 if st.session_state.recommended_keywords:
     for kw in st.session_state.recommended_keywords:
         if st.button(f"▸  {kw}", key=f"rec_{kw}", use_container_width=True):
             st.session_state.auto_send = kw
 
     # 새로고침 버튼
-    st.markdown("<div style='height:0.5rem'></div>", unsafe_allow_html=True)
-    if st.button("🔄  다른 질문 추천받기", key="refresh_keywords", use_container_width=False):
-        st.session_state.keywords_generated = False
-        st.rerun()
+    st.markdown("<div style='height:0.4rem'></div>", unsafe_allow_html=True)
+    col_refresh, _ = st.columns([1.6, 3])
+    with col_refresh:
+        st.markdown('<div class="refresh-btn">', unsafe_allow_html=True)
+        if st.button("🔄  다른 질문 추천받기", key="refresh_keywords"):
+            st.session_state.keywords_generated = False
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown("<hr>", unsafe_allow_html=True)
 
 # ───────────────────────────── 대화 영역 ─────────────────────────────
 col_title, col_reset = st.columns([5, 1])
 with col_title:
-    st.markdown("#### 💬 대화")
+    st.markdown('<div class="chat-title">💬 대화</div>', unsafe_allow_html=True)
 with col_reset:
+    st.markdown('<div class="reset-btn">', unsafe_allow_html=True)
     if st.button("초기화", use_container_width=True):
         st.session_state.messages = []
         st.session_state.total_input_tokens = 0
         st.session_state.total_output_tokens = 0
         st.session_state.auto_send = None
         st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # 이전 대화 출력
 for message in st.session_state.messages:
@@ -277,7 +403,6 @@ for message in st.session_state.messages:
 # ───────────────────────────── 입력 처리 ─────────────────────────────
 user_input = st.chat_input("메시지를 입력하세요...")
 
-# 키워드 클릭 or 직접 입력 통합
 final_input = None
 if st.session_state.auto_send:
     final_input = st.session_state.auto_send
@@ -327,27 +452,24 @@ st.markdown('<div class="section-label">토큰 사용량</div>', unsafe_allow_ht
 
 total = st.session_state.total_input_tokens + st.session_state.total_output_tokens
 
-c1, c2, c3 = st.columns(3)
-with c1:
-    st.markdown(f"""
+st.markdown(f"""
+<div class="token-grid">
     <div class="token-card">
         <div class="token-label">📥 입력 토큰</div>
         <div class="token-value">{st.session_state.total_input_tokens:,}</div>
-    </div>""", unsafe_allow_html=True)
-with c2:
-    st.markdown(f"""
+    </div>
     <div class="token-card">
         <div class="token-label">📤 출력 토큰</div>
         <div class="token-value">{st.session_state.total_output_tokens:,}</div>
-    </div>""", unsafe_allow_html=True)
-with c3:
-    st.markdown(f"""
+    </div>
     <div class="token-card">
         <div class="token-label">🔢 총 사용량</div>
         <div class="token-value-accent">{total:,}</div>
-    </div>""", unsafe_allow_html=True)
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 st.markdown(
-    f'<p style="text-align:center; color:#2d3148; font-size:0.75rem; margin-top:1.5rem;">현재 모델 · {model_option}</p>',
+    f'<div class="footer-text">현재 모델 · {model_option}</div>',
     unsafe_allow_html=True
 )
